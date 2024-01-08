@@ -1,11 +1,13 @@
+import 'package:abcbul/signin_page.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
+import 'app_main_screen.dart';
 import 'home_page.dart';
 
 Future<void> main() async {
   runApp(
     DevicePreview(
-      enabled: false,
+      enabled: true,
       builder: (context) => MyApp(), // Wrap your app
     ),
   );
@@ -23,6 +25,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         locale: DevicePreview.locale(context),
         debugShowCheckedModeBanner: false,
-        home: const HomePage());
+        home: SignInPage());
   }
 }
