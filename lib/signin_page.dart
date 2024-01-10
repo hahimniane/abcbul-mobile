@@ -1,4 +1,5 @@
 import 'package:abcbul/services/navigation.dart';
+import 'package:abcbul/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -146,7 +147,7 @@ class SignInPage extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(bottom: 20),
+                            margin: EdgeInsets.only(bottom: 2),
                             width: MediaQuery.of(context).size.width * 0.9,
                             height: MediaQuery.of(context).size.width * 0.09,
                             child: TextField(
@@ -170,27 +171,31 @@ class SignInPage extends StatelessWidget {
                                   border: OutlineInputBorder()),
                             ),
                           ),
-                          Expanded(child: RememberMeScreen()),
-                          GestureDetector(
-                            onTap: () {
-                              NavigationHelper.pushPage(
-                                  context, AppMainScreen());
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(top: 5),
-                              decoration: BoxDecoration(
-                                color: purpleColor,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              height: MediaQuery.of(context).size.height * 0.05,
-                              // width: MediaQuery.of(context).size.width * 0.85,
-                              child: Center(
-                                child: Text(
-                                  'Oturum aç',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
+                          RememberMeScreen(),
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: GestureDetector(
+                              onTap: () {
+                                NavigationHelper.pushPage(
+                                    context, AppMainScreen());
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(top: 30),
+                                decoration: BoxDecoration(
+                                  color: purpleColor,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                height:
+                                    MediaQuery.of(context).size.height * 0.05,
+                                // width: MediaQuery.of(context).size.width * 0.85,
+                                child: Center(
+                                  child: Text(
+                                    'Oturum aç',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -214,6 +219,8 @@ class SignInPage extends StatelessWidget {
                                   alignment: Alignment.centerRight,
                                   child: GestureDetector(
                                     onTap: () {
+                                      NavigationHelper.pushPage(
+                                          context, SignUpPage());
                                       // Implement your forgot password functionality here
                                       // This can navigate to another screen or perform an action
                                       // such as sending a reset password email.

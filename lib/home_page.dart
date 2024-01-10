@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:abcbul/profile.dart';
 import 'package:abcbul/proposals.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -367,12 +368,14 @@ class JobCard extends StatelessWidget {
             child: CustomIconWidget(
                 icon: Icons.work,
                 color: Colors.grey.shade300,
-                label:
-                    'daha once ${this.numberOfJobsDoneBefore} islem yapmati'),
+                label: 'daha once ${this.numberOfJobsDoneBefore} islem yapti'),
           ),
           GestureDetector(
-            onTap: () {
-              print('tapped');
+            onTap: () async {
+              FirebaseFirestore firestore = FirebaseFirestore.instance;
+              dynamic data =
+                  await firestore.collection('Users').doc('test').get();
+              print(data);
             },
             child: Container(
               margin: EdgeInsets.only(top: 5),

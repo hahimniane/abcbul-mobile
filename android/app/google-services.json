@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "624523047238",
+    "project_id": "abcbul-c49d9",
+    "storage_bucket": "abcbul-c49d9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:624523047238:android:76bf8ce0b696d2a87ef547",
+        "android_client_info": {
+          "package_name": "com.abcbul.abcbul.android"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDl1UtbeS12_scxeT0nTvQKKAf4vi9U1Ts"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
