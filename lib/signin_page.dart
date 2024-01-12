@@ -1,4 +1,7 @@
+import 'package:abcbul/services/login_services/login_api_call.dart';
+import 'package:abcbul/services/login_services/login_model_class.dart';
 import 'package:abcbul/services/navigation.dart';
+
 import 'package:abcbul/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,7 +11,10 @@ import 'const.dart';
 import 'job.dart';
 
 class SignInPage extends StatelessWidget {
-  const SignInPage({super.key});
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  SignInPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -126,6 +132,7 @@ class SignInPage extends StatelessWidget {
                             width: MediaQuery.of(context).size.width * 0.9,
                             height: MediaQuery.of(context).size.width * 0.09,
                             child: TextField(
+                              controller: emailController,
                               style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
                                   filled: true,
@@ -151,6 +158,7 @@ class SignInPage extends StatelessWidget {
                             width: MediaQuery.of(context).size.width * 0.9,
                             height: MediaQuery.of(context).size.width * 0.09,
                             child: TextField(
+                              controller: passwordController,
                               style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
                                   filled: true,
@@ -175,9 +183,21 @@ class SignInPage extends StatelessWidget {
                           Align(
                             alignment: Alignment.bottomCenter,
                             child: GestureDetector(
-                              onTap: () {
-                                NavigationHelper.pushPage(
-                                    context, AppMainScreen());
+                              onTap: () async {
+                                UserLogin userLogin = UserLogin();
+                                SignInResult userStatus =
+                                    await userLogin.signIn(
+                                        email: emailController.text,
+                                        password: passwordController.text);
+
+                                if (userStatus.success) {
+                                  print('Sign-in was successful');
+                                  NavigationHelper.pushPage(
+                                      context, AppMainScreen());
+                                } else {
+                                  print(
+                                      'There is an issue: ${userStatus.failureReason}');
+                                }
                               },
                               child: Container(
                                 margin: EdgeInsets.only(top: 30),

@@ -1,5 +1,7 @@
 import 'package:abcbul/services/navigation.dart';
 import 'package:abcbul/signin_page.dart';
+import 'package:abcbul/utils/Resusable_Signup_textfield.dart';
+import 'package:abcbul/utils/show_terms_services_dialogue.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -87,6 +89,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       controller: phoneController,
                     ),
                     CustomTextField(
+                        obscureText: true,
                         prefixIcon: Icons.lock,
                         label: 'Şifre....',
                         controller: passwordController),
@@ -135,7 +138,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     // RememberMeScreen(),
                     GestureDetector(
                       onTap: () {
-                        NavigationHelper.pushPage(context, AppMainScreen());
+                        // NavigationHelper.pushPage(context, AppMainScreen());
                       },
                       child: Container(
                         margin: EdgeInsets.only(top: 5, bottom: 5),
@@ -168,15 +171,8 @@ class _SignUpPageState extends State<SignUpPage> {
                               child: FittedBox(
                                 fit: BoxFit.fill,
                                 child: CupertinoSwitch(
-                                  // overrides the default green color of the track
                                   activeColor: purpleColor,
-                                  // color of the round icon, which moves from right to left
-                                  // thumbColor: purpleColor,
-                                  // when the switch is off
-                                  // trackColor: Colors.black12,
-                                  // boolean variable value
                                   value: switchValue,
-                                  // changes the state of the switch
                                   onChanged: (value) =>
                                       setState(() => switchValue = value),
                                 ),
@@ -188,7 +184,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        result = await _showTermsAndServicesDialog(context);
+                        result = await showTermsAndServicesDialog(context);
                         setState(() {
                           result;
                         });
@@ -223,7 +219,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       child: Container(
                         margin: EdgeInsets.only(top: 2),
                         decoration: BoxDecoration(
-                          color: purpleColor,
+                          color: dullPurpleColor,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         height: MediaQuery.of(context).size.height * 0.07,
@@ -234,7 +230,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: Colors.white70,
                             ),
                           ),
                         ),
@@ -285,124 +281,6 @@ class _SignUpPageState extends State<SignUpPage> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-Future<bool> _showTermsAndServicesDialog(BuildContext context) async {
-  bool accepted = await showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        backgroundColor: backgroundColor,
-        title: Text(
-          'Şartlar ve Koşullar',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        content: SingleChildScrollView(
-          child: Text(
-            // Your terms and services text goes here
-            termsAndConditionsString,
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-        actions: <Widget>[
-          GestureDetector(
-            onTap: () {
-              Navigator.pop(
-                  context, false); // Return false when 'Geri' is tapped
-            },
-            child: Container(
-              height: 30,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: lightGreyColor),
-              child: Center(
-                child: Text(
-                  'Geri',
-                  style: TextStyle(color: Colors.white),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.pop(
-                  context, true); // Return true when 'Kabul Ediyorum' is tapped
-            },
-            child: Container(
-              margin: EdgeInsets.only(top: 10),
-              height: 30,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12), color: purpleColor),
-              child: Center(
-                child: Text(
-                  'Kabul Ediyorum',
-                  style: TextStyle(color: Colors.white),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-          ),
-        ],
-      );
-    },
-  );
-
-  // Check the value returned from the dialog
-  if (accepted) {
-    // Do something if 'Kabul Ediyorum' was selected (true was returned)
-    print('User accepted terms and conditions');
-    return true;
-    // Perform actions based on user acceptance
-  } else {
-    // Do something if 'Geri' was selected or the dialog was dismissed (false was returned)
-    print('User did not accept terms and conditions');
-    return false;
-    // Perform actions based on user rejection or dismissal
-  }
-}
-
-class CustomTextField extends StatelessWidget {
-  final IconData prefixIcon;
-  final String label;
-  final TextEditingController controller;
-  const CustomTextField({
-    super.key,
-    required this.prefixIcon,
-    required this.label,
-    required this.controller,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
-      margin: EdgeInsets.only(bottom: 10),
-      width: MediaQuery.of(context).size.width * 0.9,
-      height: MediaQuery.of(context).size.width * 0.1,
-      child: TextField(
-        controller: controller,
-        style: TextStyle(color: Colors.white),
-        decoration: InputDecoration(
-            filled: true,
-            fillColor: Color(0xff10172A),
-            label: Text(
-              label,
-              style: TextStyle(color: Colors.grey.shade200),
-            ),
-            prefixIcon: Icon(
-              prefixIcon,
-              size: 15,
-              color: Colors.white,
-            ),
-            // hintText: 'Bul...',
-            contentPadding: EdgeInsets.zero,
-            hintStyle: TextStyle(color: Colors.grey),
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
       ),
     );
   }

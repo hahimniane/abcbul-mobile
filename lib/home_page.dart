@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:abcbul/profile.dart';
 import 'package:abcbul/proposals.dart';
+import 'package:abcbul/utils/show_terms_services_dialogue.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -211,7 +212,7 @@ class YeniIhalelerScreen extends StatelessWidget {
   }
 }
 
-class JobCard extends StatelessWidget {
+class JobCard extends StatefulWidget {
   final jobImageUrl;
   final String jobTitle;
   final String jobSubtitle;
@@ -219,6 +220,7 @@ class JobCard extends StatelessWidget {
   final int numberOfProposals;
   final String jobValidityTimeStamp;
   final int numberOfJobsDoneBefore;
+
   const JobCard({
     super.key,
     this.jobImageUrl,
@@ -229,6 +231,13 @@ class JobCard extends StatelessWidget {
     required this.jobValidityTimeStamp,
     required this.numberOfJobsDoneBefore,
   });
+
+  @override
+  State<JobCard> createState() => _JobCardState();
+}
+
+class _JobCardState extends State<JobCard> {
+  bool result = false;
 
   @override
   Widget build(BuildContext context) {
@@ -257,7 +266,7 @@ class JobCard extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.2,
               fit: BoxFit.cover,
               image: AssetImage(
-                  this.jobImageUrl ?? 'images/default_job_photo.webp'),
+                  this.widget.jobImageUrl ?? 'images/default_job_photo.webp'),
             ),
           ),
           Container(
@@ -295,7 +304,7 @@ class JobCard extends StatelessWidget {
             child: Align(
               alignment: Alignment.center,
               child: Text(
-                this.jobTitle,
+                this.widget.jobTitle,
                 style: GoogleFonts.montserrat(
                   fontSize: 13,
                   color: Colors.white,
@@ -310,7 +319,7 @@ class JobCard extends StatelessWidget {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                this.jobSubtitle,
+                this.widget.jobSubtitle,
                 textAlign: TextAlign.left,
                 style: GoogleFonts.montserrat(
                     color: Colors.grey,
@@ -344,7 +353,7 @@ class JobCard extends StatelessWidget {
                   child: CustomIconWidget(
                       icon: Icons.gps_fixed,
                       color: Colors.grey.shade300,
-                      label: this.jobLocation),
+                      label: this.widget.jobLocation),
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.1,
@@ -352,7 +361,8 @@ class JobCard extends StatelessWidget {
                 CustomIconWidget(
                     icon: Icons.back_hand_outlined,
                     color: Colors.grey.shade300,
-                    label: '${this.numberOfProposals.toString()} teklif aldi'),
+                    label:
+                        '${this.widget.numberOfProposals.toString()} teklif aldi'),
               ],
             ),
           ),
@@ -361,21 +371,27 @@ class JobCard extends StatelessWidget {
             child: CustomIconWidget(
                 icon: Icons.timelapse,
                 color: Colors.grey.shade300,
-                label: this.jobValidityTimeStamp),
+                label: this.widget.jobValidityTimeStamp),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 15.0),
             child: CustomIconWidget(
                 icon: Icons.work,
                 color: Colors.grey.shade300,
-                label: 'daha once ${this.numberOfJobsDoneBefore} islem yapti'),
+                label:
+                    'daha once ${this.widget.numberOfJobsDoneBefore} islem yapti'),
           ),
           GestureDetector(
             onTap: () async {
-              FirebaseFirestore firestore = FirebaseFirestore.instance;
-              dynamic data =
-                  await firestore.collection('Users').doc('test').get();
-              print(data);
+              result = await showTermsAndServicesDialog(context);
+              setState(() {
+                result;
+              });
+
+              // FirebaseFirestore firestore = FirebaseFirestore.instance;
+              // dynamic data =
+              //     await firestore.collection('Users').doc('test').get();
+              // print(data);
             },
             child: Container(
               margin: EdgeInsets.only(top: 5),
