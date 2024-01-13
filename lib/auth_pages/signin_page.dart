@@ -1,14 +1,17 @@
 import 'package:abcbul/services/login_services/login_api_call.dart';
 import 'package:abcbul/services/login_services/login_model_class.dart';
 import 'package:abcbul/services/navigation.dart';
+import 'package:abcbul/services/profile/profile.dart';
 
-import 'package:abcbul/signup_page.dart';
+import 'package:abcbul/auth_pages/signup_page.dart';
+import 'package:abcbul/utils/toast.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'app_main_screen.dart';
-import 'const.dart';
-import 'job.dart';
+import '../app_main_screen.dart';
+import '../const.dart';
+import '../job.dart';
 
 class SignInPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -184,17 +187,31 @@ class SignInPage extends StatelessWidget {
                             alignment: Alignment.bottomCenter,
                             child: GestureDetector(
                               onTap: () async {
+                                // Profile profile = Profile();
+                                // profile.getUserProfile(token);
+
                                 UserLogin userLogin = UserLogin();
                                 SignInResult userStatus =
                                     await userLogin.signIn(
                                         email: emailController.text,
-                                        password: passwordController.text);
+                                        password: passwordController.text,
+                                        context: context);
 
                                 if (userStatus.success) {
                                   print('Sign-in was successful');
                                   NavigationHelper.pushPage(
                                       context, AppMainScreen());
                                 } else {
+                                  Fluttertoast.showToast(
+                                      msg: userStatus.failureReason.toString(),
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.red,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0);
+                                  // showToast(
+                                  //     'Error: ${userStatus.failureReason}');
                                   print(
                                       'There is an issue: ${userStatus.failureReason}');
                                 }

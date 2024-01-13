@@ -1,6 +1,6 @@
 import 'package:abcbul/services/navigation.dart';
-import 'package:abcbul/signin_page.dart';
-import 'package:abcbul/signup_page.dart';
+import 'package:abcbul/auth_pages/signin_page.dart';
+import 'package:abcbul/auth_pages/signup_page.dart';
 import 'package:abcbul/utils/Resusable_Signup_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -198,410 +198,417 @@ class _JobPageState extends State<JobPage> {
                             ),
                           ],
                         ),
-                        // Padding(
-                        //   padding: const EdgeInsets.symmetric(horizontal: 21.0),
-                        //   child: Row(
-                        //     children: [
-                        //       Expanded(
-                        //         child: GestureDetector(
-                        //           onTap: () {
-                        //             setState(() {
-                        //               jobTimeContainerOne = true;
-                        //               jobTimeContainerTwo = false;
-                        //               jobTimeContainerThree = false;
-                        //             });
-                        //           },
-                        //           child: Container(
-                        //             decoration: BoxDecoration(
-                        //                 border: Border.all(
-                        //                     color: jobTimeContainerOne
-                        //                         ? purpleColor
-                        //                         : backgroundColor),
-                        //                 color: lightGreyColor,
-                        //                 borderRadius: BorderRadius.circular(12)),
-                        //             height: 50,
-                        //             width: 80,
-                        //             child: Align(
-                        //               alignment: Alignment.centerLeft,
-                        //               child: Padding(
-                        //                 padding: const EdgeInsets.all(8.0),
-                        //                 child: Text(
-                        //                   '7 Gün',
-                        //                   style: TextStyle(
-                        //                       color: Colors.white,
-                        //                       fontWeight: FontWeight.bold),
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //       SizedBox(
-                        //         width: 10,
-                        //       ),
-                        //       Expanded(
-                        //         child: GestureDetector(
-                        //           onTap: () {
-                        //             setState(() {
-                        //               jobTimeContainerOne = false;
-                        //               jobTimeContainerTwo = true;
-                        //               jobTimeContainerThree = false;
-                        //             });
-                        //           },
-                        //           child: Container(
-                        //             decoration: BoxDecoration(
-                        //                 border: Border.all(
-                        //                     color: jobTimeContainerTwo
-                        //                         ? purpleColor
-                        //                         : backgroundColor),
-                        //                 color: lightGreyColor,
-                        //                 borderRadius: BorderRadius.circular(12)),
-                        //             height: 50,
-                        //             width: 80,
-                        //             child: Align(
-                        //               alignment: Alignment.centerLeft,
-                        //               child: Padding(
-                        //                 padding: const EdgeInsets.all(8.0),
-                        //                 child: Text(
-                        //                   '7 Gün',
-                        //                   style: TextStyle(
-                        //                       color: Colors.white,
-                        //                       fontWeight: FontWeight.bold),
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //       SizedBox(
-                        //         width: 10,
-                        //       ),
-                        //       Expanded(
-                        //         child: GestureDetector(
-                        //           onTap: () {
-                        //             setState(() {
-                        //               jobTimeContainerOne = false;
-                        //               jobTimeContainerTwo = false;
-                        //               jobTimeContainerThree = true;
-                        //             });
-                        //           },
-                        //           child: Container(
-                        //             decoration: BoxDecoration(
-                        //                 border: Border.all(
-                        //                     color: jobTimeContainerThree
-                        //                         ? purpleColor
-                        //                         : backgroundColor),
-                        //                 color: lightGreyColor,
-                        //                 borderRadius: BorderRadius.circular(12)),
-                        //             height: 50,
-                        //             width: 80,
-                        //             child: Align(
-                        //               alignment: Alignment.centerLeft,
-                        //               child: Padding(
-                        //                 padding: const EdgeInsets.all(8.0),
-                        //                 child: Text(
-                        //                   '7 Gün',
-                        //                   style: TextStyle(
-                        //                       color: Colors.white,
-                        //                       fontWeight: FontWeight.bold),
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-                        // Padding(
-                        //   padding: const EdgeInsets.symmetric(
-                        //       horizontal: 21.0, vertical: 15),
-                        //   child: Row(
-                        //     children: [
-                        //       Expanded(
-                        //         child: GestureDetector(
-                        //           onTap: () {
-                        //             setState(() {
-                        //               jobTypeContainerOne = true;
-                        //               jobTypeContainerTwo = false;
-                        //               jobTypeContainerThree = false;
-                        //               jobTypeContainerFour = false;
-                        //             });
-                        //           },
-                        //           child: Container(
-                        //             decoration: BoxDecoration(
-                        //                 border: Border.all(
-                        //                     color: jobTypeContainerOne
-                        //                         ? purpleColor
-                        //                         : backgroundColor),
-                        //                 color: lightGreyColor,
-                        //                 borderRadius: BorderRadius.circular(12)),
-                        //             height: 70,
-                        //             width: 80,
-                        //             child: Padding(
-                        //               padding: const EdgeInsets.all(8.0),
-                        //               child: Column(
-                        //                 children: [
-                        //                   Align(
-                        //                     alignment: Alignment.topRight,
-                        //                     child: Container(
-                        //                       height: 10,
-                        //                       width: 10,
-                        //                       decoration: BoxDecoration(
-                        //                           color: purpleColor,
-                        //                           shape: BoxShape.circle),
-                        //                     ),
-                        //                   ),
-                        //                   Expanded(
-                        //                       child: Icon(
-                        //                     Icons.lightbulb,
-                        //                     color: purpleColor,
-                        //                   )),
-                        //                   SizedBox(
-                        //                     height: 10,
-                        //                   ),
-                        //                   Text(
-                        //                     'Hizmet',
-                        //                     style: TextStyle(
-                        //                         color: Colors.white,
-                        //                         fontWeight: FontWeight.bold,
-                        //                         fontSize: 12),
-                        //                   ),
-                        //                 ],
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //       SizedBox(
-                        //         width: 10,
-                        //       ),
-                        //       Expanded(
-                        //         child: GestureDetector(
-                        //           onTap: () {
-                        //             setState(() {
-                        //               jobTimeContainerOne = false;
-                        //               jobTimeContainerTwo = true;
-                        //               jobTypeContainerThree = false;
-                        //               jobTypeContainerFour = false;
-                        //             });
-                        //           },
-                        //           child: Container(
-                        //             decoration: BoxDecoration(
-                        //                 border: Border.all(
-                        //                     color: jobTypeContainerTwo
-                        //                         ? purpleColor
-                        //                         : backgroundColor),
-                        //                 color: lightGreyColor,
-                        //                 borderRadius: BorderRadius.circular(12)),
-                        //             height: 70,
-                        //             width: 80,
-                        //             child: Padding(
-                        //               padding: const EdgeInsets.all(8.0),
-                        //               child: Column(
-                        //                 children: [
-                        //                   Align(
-                        //                     alignment: Alignment.topRight,
-                        //                     child: Container(
-                        //                       height: 10,
-                        //                       width: 10,
-                        //                       decoration: BoxDecoration(
-                        //                           color: purpleColor,
-                        //                           shape: BoxShape.circle),
-                        //                     ),
-                        //                   ),
-                        //                   Expanded(
-                        //                       child: Icon(
-                        //                     Icons.local_shipping,
-                        //                     color: purpleColor,
-                        //                   )),
-                        //                   SizedBox(
-                        //                     height: 10,
-                        //                   ),
-                        //                   Text(
-                        //                     'Nakliye',
-                        //                     style: TextStyle(
-                        //                         color: Colors.white,
-                        //                         fontWeight: FontWeight.bold,
-                        //                         fontSize: 12),
-                        //                   ),
-                        //                 ],
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //       SizedBox(
-                        //         width: 10,
-                        //       ),
-                        //       Expanded(
-                        //         child: GestureDetector(
-                        //           onTap: () {
-                        //             setState(() {
-                        //               jobTimeContainerOne = false;
-                        //               jobTimeContainerTwo = false;
-                        //               jobTypeContainerThree = true;
-                        //               jobTypeContainerFour = false;
-                        //             });
-                        //           },
-                        //           child: Container(
-                        //             decoration: BoxDecoration(
-                        //                 border: Border.all(
-                        //                     color: jobTypeContainerThree
-                        //                         ? purpleColor
-                        //                         : backgroundColor),
-                        //                 color: lightGreyColor,
-                        //                 borderRadius: BorderRadius.circular(12)),
-                        //             height: 70,
-                        //             width: 80,
-                        //             child: Padding(
-                        //               padding: const EdgeInsets.all(8.0),
-                        //               child: Column(
-                        //                 children: [
-                        //                   Align(
-                        //                     alignment: Alignment.topRight,
-                        //                     child: Container(
-                        //                       height: 10,
-                        //                       width: 10,
-                        //                       decoration: BoxDecoration(
-                        //                           color: purpleColor,
-                        //                           shape: BoxShape.circle),
-                        //                     ),
-                        //                   ),
-                        //                   Expanded(
-                        //                       child: Icon(
-                        //                     FontAwesomeIcons.building,
-                        //                     color: purpleColor,
-                        //                   )),
-                        //                   SizedBox(
-                        //                     height: 10,
-                        //                   ),
-                        //                   Text(
-                        //                     'Mimari',
-                        //                     style: TextStyle(
-                        //                         color: Colors.white,
-                        //                         fontWeight: FontWeight.bold,
-                        //                         fontSize: 12),
-                        //                   ),
-                        //                 ],
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //       SizedBox(
-                        //         width: 10,
-                        //       ),
-                        //       Expanded(
-                        //         child: GestureDetector(
-                        //           onTap: () {
-                        //             setState(() {
-                        //               jobTypeContainerOne = false;
-                        //               jobTypeContainerTwo = false;
-                        //               jobTypeContainerThree = false;
-                        //               jobTypeContainerFour = true;
-                        //             });
-                        //           },
-                        //           child: Container(
-                        //             decoration: BoxDecoration(
-                        //                 border: Border.all(
-                        //                     color: jobTypeContainerFour
-                        //                         ? purpleColor
-                        //                         : backgroundColor),
-                        //                 color: lightGreyColor,
-                        //                 borderRadius: BorderRadius.circular(12)),
-                        //             height: 70,
-                        //             width: 80,
-                        //             child: Padding(
-                        //               padding: const EdgeInsets.all(8.0),
-                        //               child: Column(
-                        //                 children: [
-                        //                   Align(
-                        //                     alignment: Alignment.topRight,
-                        //                     child: Container(
-                        //                       height: 10,
-                        //                       width: 10,
-                        //                       decoration: BoxDecoration(
-                        //                           color: purpleColor,
-                        //                           shape: BoxShape.circle),
-                        //                     ),
-                        //                   ),
-                        //                   Expanded(
-                        //                       child: Icon(
-                        //                     FontAwesomeIcons.box,
-                        //                     color: purpleColor,
-                        //                   )),
-                        //                   SizedBox(
-                        //                     height: 10,
-                        //                   ),
-                        //                   Text(
-                        //                     'Toptan',
-                        //                     style: TextStyle(
-                        //                         color: Colors.white,
-                        //                         fontWeight: FontWeight.bold,
-                        //                         fontSize: 12),
-                        //                   ),
-                        //                 ],
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 21.0),
-                          child: ToggleButtons(
-                            isSelected: [
-                              jobTimeContainerOne,
-                              jobTimeContainerTwo,
-                              jobTimeContainerThree
-                            ],
-                            onPressed: (index) {
-                              setState(() {
-                                jobTimeContainerOne = index == 0;
-                                jobTimeContainerTwo = index == 1;
-                                jobTimeContainerThree = index == 2;
-                              });
-                            },
+                          child: Row(
                             children: [
-                              _buildToggleButton('7 Gün'),
-                              _buildToggleButton('14 Gün'),
-                              _buildToggleButton('30 Gün'),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      jobTimeContainerOne = true;
+                                      jobTimeContainerTwo = false;
+                                      jobTimeContainerThree = false;
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: jobTimeContainerOne
+                                                ? purpleColor
+                                                : backgroundColor),
+                                        color: lightGreyColor,
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    height: 50,
+                                    width: 80,
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          '7 Gün',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      jobTimeContainerOne = false;
+                                      jobTimeContainerTwo = true;
+                                      jobTimeContainerThree = false;
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: jobTimeContainerTwo
+                                                ? purpleColor
+                                                : backgroundColor),
+                                        color: lightGreyColor,
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    height: 50,
+                                    width: 80,
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          '7 Gün',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      jobTimeContainerOne = false;
+                                      jobTimeContainerTwo = false;
+                                      jobTimeContainerThree = true;
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: jobTimeContainerThree
+                                                ? purpleColor
+                                                : backgroundColor),
+                                        color: lightGreyColor,
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    height: 50,
+                                    width: 80,
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          '7 Gün',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                        const SizedBox(height: 15),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                          child: ToggleButtons(
-                            isSelected: [
-                              jobTypeContainerOne,
-                              jobTypeContainerTwo,
-                              jobTypeContainerThree,
-                              jobTypeContainerFour
-                            ],
-                            onPressed: (index) {
-                              setState(() {
-                                jobTypeContainerOne = index == 0;
-                                jobTypeContainerTwo = index == 1;
-                                jobTypeContainerThree = index == 2;
-                                jobTypeContainerFour = index == 3;
-                              });
-                            },
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 21.0, vertical: 15),
+                          child: Row(
                             children: [
-                              _buildToggleButton('Hizmet', Icons.lightbulb),
-                              _buildToggleButton(
-                                  'Nakliye', Icons.local_shipping),
-                              _buildToggleButton(
-                                  'Mimari', FontAwesomeIcons.building),
-                              _buildToggleButton(
-                                  'Toptan', FontAwesomeIcons.box),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      jobTypeContainerOne = true;
+                                      jobTypeContainerTwo = false;
+                                      jobTypeContainerThree = false;
+                                      jobTypeContainerFour = false;
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: jobTypeContainerOne
+                                                ? purpleColor
+                                                : backgroundColor),
+                                        color: lightGreyColor,
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    height: 70,
+                                    width: 80,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.topRight,
+                                            child: Container(
+                                              height: 10,
+                                              width: 10,
+                                              decoration: BoxDecoration(
+                                                  color: purpleColor,
+                                                  shape: BoxShape.circle),
+                                            ),
+                                          ),
+                                          Expanded(
+                                              child: Icon(
+                                            Icons.lightbulb,
+                                            color: purpleColor,
+                                          )),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            'Hizmet',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      jobTimeContainerOne = false;
+                                      jobTimeContainerTwo = true;
+                                      jobTypeContainerThree = false;
+                                      jobTypeContainerFour = false;
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: jobTypeContainerTwo
+                                                ? purpleColor
+                                                : backgroundColor),
+                                        color: lightGreyColor,
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    height: 70,
+                                    width: 80,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.topRight,
+                                            child: Container(
+                                              height: 10,
+                                              width: 10,
+                                              decoration: BoxDecoration(
+                                                  color: purpleColor,
+                                                  shape: BoxShape.circle),
+                                            ),
+                                          ),
+                                          Expanded(
+                                              child: Icon(
+                                            Icons.local_shipping,
+                                            color: purpleColor,
+                                          )),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            'Nakliye',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      jobTimeContainerOne = false;
+                                      jobTimeContainerTwo = false;
+                                      jobTypeContainerThree = true;
+                                      jobTypeContainerFour = false;
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: jobTypeContainerThree
+                                                ? purpleColor
+                                                : backgroundColor),
+                                        color: lightGreyColor,
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    height: 70,
+                                    width: 80,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.topRight,
+                                            child: Container(
+                                              height: 10,
+                                              width: 10,
+                                              decoration: BoxDecoration(
+                                                  color: purpleColor,
+                                                  shape: BoxShape.circle),
+                                            ),
+                                          ),
+                                          Expanded(
+                                              child: Icon(
+                                            FontAwesomeIcons.building,
+                                            color: purpleColor,
+                                          )),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            'Mimari',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      jobTypeContainerOne = false;
+                                      jobTypeContainerTwo = false;
+                                      jobTypeContainerThree = false;
+                                      jobTypeContainerFour = true;
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: jobTypeContainerFour
+                                                ? purpleColor
+                                                : backgroundColor),
+                                        color: lightGreyColor,
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    height: 70,
+                                    width: 80,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.topRight,
+                                            child: Container(
+                                              height: 10,
+                                              width: 10,
+                                              decoration: BoxDecoration(
+                                                  color: purpleColor,
+                                                  shape: BoxShape.circle),
+                                            ),
+                                          ),
+                                          Expanded(
+                                              child: Icon(
+                                            FontAwesomeIcons.box,
+                                            color: purpleColor,
+                                          )),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            'Toptan',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
+
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(horizontal: 21.0),
+                        //   child: ToggleButtons(
+                        //     isSelected: [
+                        //       jobTimeContainerOne,
+                        //       jobTimeContainerTwo,
+                        //       jobTimeContainerThree
+                        //     ],
+                        //     onPressed: (index) {
+                        //       setState(() {
+                        //         jobTimeContainerOne = index == 0;
+                        //         jobTimeContainerTwo = index == 1;
+                        //         jobTimeContainerThree = index == 2;
+                        //       });
+                        //     },
+                        //     children: [
+                        //       _buildToggleButton('7 Gün'),
+                        //       _buildToggleButton('14 Gün'),
+                        //       _buildToggleButton('30 Gün'),
+                        //     ],
+                        //   ),
+                        // ),
+                        // const SizedBox(height: 15),
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                        //   child: ToggleButtons(
+                        //     isSelected: [
+                        //       jobTypeContainerOne,
+                        //       jobTypeContainerTwo,
+                        //       jobTypeContainerThree,
+                        //       jobTypeContainerFour
+                        //     ],
+                        //     onPressed: (index) {
+                        //       setState(() {
+                        //         jobTypeContainerOne = index == 0;
+                        //         jobTypeContainerTwo = index == 1;
+                        //         jobTypeContainerThree = index == 2;
+                        //         jobTypeContainerFour = index == 3;
+                        //       });
+                        //     },
+                        //     children: [
+                        //       _buildToggleButton('Hizmet', Icons.lightbulb),
+                        //       _buildToggleButton(
+                        //           'Nakliye', Icons.local_shipping),
+                        //       _buildToggleButton(
+                        //           'Mimari', FontAwesomeIcons.building),
+                        //       _buildToggleButton(
+                        //           'Toptan', FontAwesomeIcons.box),
+                        //     ],
+                        //   ),
+                        // ),
                         SizedBox(
                           height: 10,
                         ),
@@ -610,28 +617,34 @@ class _JobPageState extends State<JobPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: lightGreyColor,
-                                    borderRadius: BorderRadius.circular(4)),
-                                // color: Colors.orange,
-                                width: 100,
-                                height: 30,
-                                child: Center(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.arrow_back,
-                                        color: Colors.white,
-                                      ),
-                                      Text(
-                                        'Geri',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: lightGreyColor,
+                                      borderRadius: BorderRadius.circular(4)),
+                                  // color: Colors.orange,
+                                  width: 100,
+                                  height: 30,
+                                  child: Center(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.arrow_back,
+                                          color: Colors.white,
+                                        ),
+                                        Text(
+                                          'Geri',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

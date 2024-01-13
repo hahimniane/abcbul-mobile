@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:abcbul/profile.dart';
 import 'package:abcbul/proposals.dart';
+import 'package:abcbul/services/navigation.dart';
 import 'package:abcbul/utils/show_terms_services_dialogue.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -171,22 +172,65 @@ class YeniIhalelerScreen extends StatelessWidget {
           margin: EdgeInsets.only(bottom: 20),
           width: MediaQuery.of(context).size.width * 0.9,
           height: MediaQuery.of(context).size.width * 0.09,
-          child: TextField(
-            style: TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-                label: Text(
-                  'bul...',
-                  style: TextStyle(color: Colors.grey.shade200),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: TextField(
+                  style: TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                      label: Text(
+                        'bul...',
+                        style: TextStyle(color: Colors.grey.shade200),
+                      ),
+                      prefixIcon: Icon(
+                        Icons.search,
+                        size: 15,
+                        color: Colors.white,
+                      ),
+                      // hintText: 'Bul...',
+                      contentPadding: EdgeInsets.zero,
+                      hintStyle: TextStyle(color: Colors.grey),
+                      border: OutlineInputBorder()),
                 ),
-                prefixIcon: Icon(
-                  Icons.search,
-                  size: 15,
-                  color: Colors.white,
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    NavigationHelper.pushPage(context, JobPage());
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: lightPurpleColor.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    height: 35,
+                    width: 30,
+                    // color: Colors.blue,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.menu,
+                          color: purpleColor,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          'Ihale Ekle',
+                          style: TextStyle(
+                              color: purpleColor, fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
+                  ),
                 ),
-                // hintText: 'Bul...',
-                contentPadding: EdgeInsets.zero,
-                hintStyle: TextStyle(color: Colors.grey),
-                border: OutlineInputBorder()),
+              )
+            ],
           ),
         ),
         Expanded(

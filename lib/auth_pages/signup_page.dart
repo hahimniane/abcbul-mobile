@@ -1,13 +1,13 @@
 import 'package:abcbul/services/navigation.dart';
-import 'package:abcbul/signin_page.dart';
+import 'package:abcbul/auth_pages/signin_page.dart';
 import 'package:abcbul/utils/Resusable_Signup_textfield.dart';
 import 'package:abcbul/utils/show_terms_services_dialogue.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'app_main_screen.dart';
-import 'const.dart';
+import '../app_main_screen.dart';
+import '../const.dart';
 
 class SignUpPage extends StatefulWidget {
   SignUpPage({super.key});
@@ -214,7 +214,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                     GestureDetector(
                       onTap: () {
-                        NavigationHelper.pushPage(context, AppMainScreen());
+                        // NavigationHelper.pushPage(context, AppMainScreen());
                       },
                       child: Container(
                         margin: EdgeInsets.only(top: 2),

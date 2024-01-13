@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 import '../../const.dart';
+import '../provider_get_user_token.dart';
 import 'login_model_class.dart';
 
 import '../../const.dart';
@@ -17,10 +20,10 @@ class SignInResult {
 }
 
 class UserLogin {
-  Future<SignInResult> signIn({
-    required String email,
-    required String password,
-  }) async {
+  Future<SignInResult> signIn(
+      {required String email,
+      required String password,
+      required BuildContext context}) async {
     var request =
         await http.Request('POST', Uri.parse('$baseUrl/api/mobile/auth/login'));
     request.body = json.encode({"email": email, "password": password});
@@ -32,6 +35,11 @@ class UserLogin {
       String responseBody = await response.stream.bytesToString();
       Map<String, dynamic> jsonResponse = json.decode(responseBody);
       ApiResponse apiResponse = ApiResponse.fromJson(jsonResponse);
+
+      Provider.of<TokenService>(context, listen: false)
+          .saveTokenToPrefs(apiResponse.token);
+
+      // tokenManagerProvider.setToken(token);
 
       // Return a success result with the ApiResponse
       return SignInResult(success: true, apiResponse: apiResponse);
