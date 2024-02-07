@@ -2,13 +2,20 @@ import 'dart:math';
 
 import 'package:abcbul/profile.dart';
 import 'package:abcbul/proposals.dart';
+import 'package:abcbul/services/get_jobs_services/get_jobs_api_call.dart';
 import 'package:abcbul/services/navigation.dart';
+import 'package:abcbul/services/provider_get_user_token.dart';
 import 'package:abcbul/utils/show_terms_services_dialogue.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'app_main_screen.dart';
+import 'auth_pages/signin_page.dart';
 import 'const.dart';
+import 'create_job_page.dart';
+import 'create_proposal_page.dart';
 import 'job.dart';
 import 'notification.dart';
 
@@ -78,6 +85,9 @@ class _HomePageState extends State<HomePage>
             Container(
               height: 45,
               child: TabBar(
+                // indicatorColor: Colors.green,
+                indicatorSize: TabBarIndicatorSize.tab,
+                dividerColor: Colors.white,
                 padding: EdgeInsets.all(5),
                 labelPadding: EdgeInsets.zero,
                 indicator: ShapeDecoration(
@@ -111,9 +121,16 @@ class _HomePageState extends State<HomePage>
   }
 }
 
+Future<String?> getToken(context) async {
+  return await Provider.of<TokenService>(context, listen: false)
+      .loadTokenFromPrefs();
+}
+
 class YeniIhalelerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // var jobs = JobsService.getAllJobsService(token, context);
+    // print(jobs.runtimeType);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -199,8 +216,27 @@ class YeniIhalelerScreen extends StatelessWidget {
               ),
               Expanded(
                 child: GestureDetector(
-                  onTap: () {
-                    NavigationHelper.pushPage(context, JobPage());
+                  onTap: () async {
+                    if (await getToken(context) != null) {
+                      NavigationHelper.pushPage(context, CreateJobPage());
+                    } else {
+                      NavigationHelper.pushPage(context, SignInPage());
+                    }
+
+                    // FutureBuilder<String?>(
+                    //   future: tokenFuture,
+                    //   builder: (context, snapshot) {
+                    //     if (snapshot.connectionState == ConnectionState.done) {
+                    //       final String? token = snapshot.data;
+                    //
+                    //       print('the token is-- $token');
+                    //
+                    //       return token != null ? CreateJobPage() : SignInPage();
+                    //     } else {
+                    //       return CircularProgressIndicator();
+                    //     }
+                    //   },
+                    // );
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -234,19 +270,41 @@ class YeniIhalelerScreen extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: ListView.builder(
-            shrinkWrap: false,
-            itemCount: 3,
-            itemBuilder: (BuildContext context, int index) {
-              return JobCard(
-                jobTitle:
-                    'Title will come here and every thing else sdfdsf adfsf sdfdsf',
-                jobSubtitle: 'it is a very pressing job. please get a teklif',
-                jobLocation: 'Konya',
-                numberOfProposals: 4,
-                jobValidityTimeStamp: '20 gun 10 saat '
-                    '20 dakika 12 saniye',
-                numberOfJobsDoneBefore: 3,
+          child: FutureBuilder(
+            future: JobsService.getAllJobsService(token, context),
+            builder: (context, snapshot) {
+              // var expires_at = snapshot.data![0]['expires_at'];
+              // DateTime date = DateTime.fromMillisecondsSinceEpoch(expires_at);
+              if (!snapshot.hasData) {
+                return Center(child: CircularProgressIndicator());
+              }
+
+              return ListView.builder(
+                shrinkWrap: false,
+                itemCount: snapshot.data!.length,
+                itemBuilder: (BuildContext context, int index) {
+                  DateTime dateTime =
+                      DateTime.fromMillisecondsSinceEpoch(1707586489146);
+                  print('the date time is $dateTime');
+                  print(snapshot.data![index]);
+                  String title = snapshot.data![index]['title'];
+                  String subtitle = snapshot.data![index]['description'];
+                  String city = snapshot.data![index]['city'];
+                  int numberOfJobsDone =
+                      snapshot.data![index]['user']['project_completed'];
+                  String coverImage = snapshot.data![index]['cover'];
+                  print(numberOfJobsDone);
+                  return JobCard(
+                    jobImageUrl: coverImage,
+                    jobTitle: title,
+                    jobSubtitle: subtitle,
+                    jobLocation: city,
+                    numberOfProposals:
+                        snapshot.data![index]['proposals'].length,
+                    jobValidityTimeStamp: '',
+                    numberOfJobsDoneBefore: numberOfJobsDone,
+                  );
+                },
               );
             },
           ),
@@ -307,11 +365,13 @@ class _JobCardState extends State<JobCard> {
                 border: Border.all(
                     color: purpleColor, width: 0.6)), // Occupy entire width
             child: Image(
-              width: MediaQuery.of(context).size.width * 0.2,
-              fit: BoxFit.cover,
-              image: AssetImage(
-                  this.widget.jobImageUrl ?? 'images/default_job_photo.webp'),
-            ),
+                width: MediaQuery.of(context).size.width * 0.2,
+                fit: BoxFit.cover,
+                image: NetworkImage(widget.jobImageUrl) // Cast to String
+
+                // AssetImage(
+                //      'images/default_job_photo.webp'),
+                ),
           ),
           Container(
             margin: EdgeInsets.only(bottom: 5),
@@ -364,6 +424,7 @@ class _JobCardState extends State<JobCard> {
               alignment: Alignment.centerLeft,
               child: Text(
                 this.widget.jobSubtitle,
+                overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.left,
                 style: GoogleFonts.montserrat(
                     color: Colors.grey,
@@ -427,15 +488,11 @@ class _JobCardState extends State<JobCard> {
           ),
           GestureDetector(
             onTap: () async {
-              result = await showTermsAndServicesDialog(context);
-              setState(() {
-                result;
-              });
-
-              // FirebaseFirestore firestore = FirebaseFirestore.instance;
-              // dynamic data =
-              //     await firestore.collection('Users').doc('test').get();
-              // print(data);
+              if (await getToken(context) != null) {
+                NavigationHelper.pushPage(context, CreateProposalPage());
+              } else {
+                NavigationHelper.pushPage(context, SignInPage());
+              }
             },
             child: Container(
               margin: EdgeInsets.only(top: 5),
@@ -502,11 +559,48 @@ class CustomIconWidget extends StatelessWidget {
 class EskihalelerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Eski Ihaleler',
-        style: TextStyle(color: Colors.blue),
-      ), // Old Auctions Content
+    return Scaffold(
+      backgroundColor: backgroundColor, // Set background color to green
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Image(
+                  image: AssetImage('images/placeholder-search-5-dark.png'),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  child: Column(
+                    children: [
+                      Text(
+                        "Eşleşen sonuç yok",
+                        style: TextStyle(
+                            color: Colors.greenAccent,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 8.0),
+                      Text(
+                        "Eski ihaleniz bulunmadı!",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.0,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 16.0),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
