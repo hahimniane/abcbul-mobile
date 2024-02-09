@@ -118,119 +118,121 @@ class ProfilePage extends StatelessWidget {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image(
-                image: AssetImage('images/placeholder-search-5-dark.png'),
-              ),
-              // SvgPicture.asset(
-              //   'images/placeholder_no_proposals_place_holder.svg',
-              //   width: 100.0,
-              //   height: 100.0,
-              //   color: Colors.white, // Set the color of the SVG to white
-              // ),
-              SizedBox(height: 16.0),
-              userResponse?.user != null
-                  ? Column(
-                      children: [
-                        ListTile(
-                          leading: Text(
-                            'Kullanıcı Adı:',
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                  image: AssetImage('images/placeholder-search-5-dark.png'),
+                ),
+                // SvgPicture.asset(
+                //   'images/placeholder_no_proposals_place_holder.svg',
+                //   width: 100.0,
+                //   height: 100.0,
+                //   color: Colors.white, // Set the color of the SVG to white
+                // ),
+                SizedBox(height: 16.0),
+                userResponse?.user != null
+                    ? Column(
+                        children: [
+                          ListTile(
+                            leading: Text(
+                              'Kullanıcı Adı:',
+                              style: TextStyle(
+                                  color: lightGreyColor,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            title: Text(
+                              userResponse!.user.name,
+                              style: TextStyle(
+                                  color: purpleColor,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          ListTile(
+                            leading: Text(
+                              'E-posta:',
+                              style: TextStyle(
+                                  color: lightGreyColor,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            title: Text(
+                              userResponse!.user.email,
+                              style: TextStyle(
+                                  color: purpleColor,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          ListTile(
+                            leading: Text(
+                              'City:',
+                              style: TextStyle(
+                                  color: lightGreyColor,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            title: Text(
+                              userResponse!.user.city,
+                              style: TextStyle(
+                                  color: purpleColor,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Column(
+                        children: [
+                          SizedBox(height: 16.0),
+                          Text(
+                            "Eşleşen sonuç yok",
                             style: TextStyle(
-                                color: lightGreyColor,
+                                color: Colors.greenAccent,
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.bold),
                           ),
-                          title: Text(
-                            userResponse!.user.name,
+                          SizedBox(height: 8.0),
+                          Text(
+                            "Bilgilerinizi görmek için,önce giriş yapmanız gerekmetedir!",
                             style: TextStyle(
-                                color: purpleColor,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold),
+                              color: Colors.white,
+                              fontSize: 16.0,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
-                        ),
-                        ListTile(
-                          leading: Text(
-                            'E-posta:',
-                            style: TextStyle(
-                                color: lightGreyColor,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          title: Text(
-                            userResponse!.user.email,
-                            style: TextStyle(
-                                color: purpleColor,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        ListTile(
-                          leading: Text(
-                            'City:',
-                            style: TextStyle(
-                                color: lightGreyColor,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          title: Text(
-                            userResponse!.user.city,
-                            style: TextStyle(
-                                color: purpleColor,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ],
-                    )
-                  : Column(
-                      children: [
-                        SizedBox(height: 16.0),
-                        Text(
-                          "Eşleşen sonuç yok",
-                          style: TextStyle(
-                              color: Colors.greenAccent,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 8.0),
-                        Text(
-                          "Bilgilerinizi görmek için,önce giriş yapmanız gerekmetedir!",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.0,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
 
-              SizedBox(height: 8.0),
+                SizedBox(height: 8.0),
 
-              //       Provider.of<TokenService>(context, listen: false)
-              //           .removeTokenFromPrefs()
-              //           .then((value) async {
-              //         SharedPreferences prefs = await SharedPreferences.getInstance();
-              //         print(prefs.getString('token'));
-              //         NavigationHelper.pushPage(context, SignInPage());
-              // Text(
-              //   "Kımse senin işini yapmıyor.Gelen Teklifleri onayladıktan sonra tekrar gel!",
-              //   style: TextStyle(
-              //     color: Colors.white,
-              //     fontSize: 16.0,
-              //   ),
-              //   textAlign: TextAlign.center,
-              // ),
-              SizedBox(height: 16.0),
+                //       Provider.of<TokenService>(context, listen: false)
+                //           .removeTokenFromPrefs()
+                //           .then((value) async {
+                //         SharedPreferences prefs = await SharedPreferences.getInstance();
+                //         print(prefs.getString('token'));
+                //         NavigationHelper.pushPage(context, SignInPage());
+                // Text(
+                //   "Kımse senin işini yapmıyor.Gelen Teklifleri onayladıktan sonra tekrar gel!",
+                //   style: TextStyle(
+                //     color: Colors.white,
+                //     fontSize: 16.0,
+                //   ),
+                //   textAlign: TextAlign.center,
+                // ),
+                SizedBox(height: 16.0),
 
-              // ElevatedButton(
-              //   onPressed: () {
-              //     NavigationHelper.pushPage(context, AppMainScreen());
-              //   },
-              //   child: Text('İşlere Teklif Ver'),
-              // ),
-            ],
+                // ElevatedButton(
+                //   onPressed: () {
+                //     NavigationHelper.pushPage(context, AppMainScreen());
+                //   },
+                //   child: Text('İşlere Teklif Ver'),
+                // ),
+              ],
+            ),
           ),
         ),
       ),

@@ -50,6 +50,8 @@ dependencies:
   rounded_loading_button: ^2.1.0
   dio: ^5.4.0
   flutter_countdown_timer: ^4.1.0
+  timer_count_down: ^2.2.2
+  image_picker: ^1.0.7
 
 dev_dependencies:
   flutter_test:

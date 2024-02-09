@@ -1,6 +1,10 @@
+import 'dart:io';
+
+import 'package:abcbul/services/post_job/post_job_api_call.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'const.dart';
 
@@ -16,7 +20,7 @@ class _JobPageState extends State<CreateJobPage> {
 
   var currentSelectedLocationValue = 'Şehiri Seç';
 
-  String currentSelectedStatusValue = 'Aktif';
+  String currentSelectedStatusValue = 'active';
 
   bool jobTimeContainerOne = false;
   bool jobTimeContainerTwo = false;
@@ -26,6 +30,18 @@ class _JobPageState extends State<CreateJobPage> {
   bool jobTypeContainerTwo = false;
   bool jobTypeContainerThree = false;
   bool jobTypeContainerFour = false;
+  File? image;
+
+  Future<void> _pickImage() async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedFile != null) {
+        print(pickedFile.path);
+        image = File(pickedFile.path);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,10 +89,21 @@ class _JobPageState extends State<CreateJobPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgPicture.asset('images/placeholder-file.svg',
-                            semanticsLabel: 'My SVG Image',
-                            height: 150,
-                            width: 100),
+                        GestureDetector(
+                          onTap: () {
+                            _pickImage();
+                          },
+                          child: image == null
+                              ? SvgPicture.asset('images/placeholder-file.svg',
+                                  semanticsLabel: 'My SVG Image',
+                                  height: 150,
+                                  width: 100)
+                              : Image.file(
+                                  image!,
+                                  height: 150,
+                                  width: 200,
+                                ),
+                        ),
                         CustomTextFieldInCreatingJob(
                           hintText: 'ornegin: villa peyjaj mimarisi',
                           prefixIcon: Icons.person,
@@ -161,8 +188,8 @@ class _JobPageState extends State<CreateJobPage> {
                                   value: currentSelectedStatusValue,
 
                                   items: <String>[
-                                    'Aktif',
-                                    'Pasif',
+                                    'active',
+                                    'inactive',
 
                                     // Add more locations as needed
                                   ].map((String value) {
@@ -434,8 +461,8 @@ class _JobPageState extends State<CreateJobPage> {
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      jobTimeContainerOne = false;
-                                      jobTimeContainerTwo = false;
+                                      jobTypeContainerOne = false;
+                                      jobTypeContainerTwo = false;
                                       jobTypeContainerThree = true;
                                       jobTypeContainerFour = false;
                                     });
@@ -644,21 +671,60 @@ class _JobPageState extends State<CreateJobPage> {
                               ),
                               GestureDetector(
                                 onTap: () async {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      showCloseIcon: true,
-                                      backgroundColor: Colors.teal,
-                                      content: Text(
-                                        'yeni ihaleniz Başarıyla oluşturuldu',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
+                                  // '168', 360,720
+                                  String selectedCategory = 'Hizmet';
+                                  String selectedTime = '168';
+
+                                  if (jobTypeContainerOne) {
+                                    selectedCategory = 'Hizmet';
+                                  } else if (jobTypeContainerTwo) {
+                                    selectedCategory = 'Nakliye';
+                                  } else if (jobTypeContainerThree) {
+                                    selectedCategory = 'Mimari';
+                                  } else if (jobTypeContainerFour) {
+                                    selectedCategory = 'Toptan';
+                                  }
+
+                                  if (jobTimeContainerOne) {
+                                    selectedTime = '168';
+                                  } else if (jobTimeContainerTwo) {
+                                    selectedTime = '360';
+                                  } else if (jobTimeContainerThree) {
+                                    selectedTime = '720';
+                                  }
+
+                                  bool result = await PostJob.postJob(
+                                    cover: '$image',
+                                    title: contentHeaderController.text,
+                                    description:
+                                        contentDescriptionController.text,
+                                    status: currentSelectedStatusValue,
+                                    category: selectedCategory,
+                                    city: currentSelectedLocationValue,
+                                    estimated_time: selectedTime,
+                                    context: context,
                                   );
-                                  await Future.delayed(Duration(seconds: 3));
-                                  Navigator.pop(context);
+
+                                  if (result) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        showCloseIcon: true,
+                                        backgroundColor: Colors.teal,
+                                        content: Text(
+                                          'yeni ihaleniz Başarıyla oluşturuldu',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    );
+                                    await Future.delayed(Duration(seconds: 3));
+                                    Navigator.pop(context);
+                                  } else {
+                                    print('an error occurred');
+                                  }
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(

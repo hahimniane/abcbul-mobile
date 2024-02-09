@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 import '../../const.dart';
+import '../Bid_job/bid_job_apil_call.dart';
 import '../get_jobs_services/get_jobs_api_call.dart';
 import '../provider_for_logged_in_user.dart';
 import '../provider_get_user_token.dart';
@@ -43,13 +44,23 @@ class UserLogin {
       print(
           '//////////////////////////////////////////////////////////////////////');
 
-      Provider.of<TokenService>(context, listen: false)
+      await Provider.of<TokenService>(context, listen: false)
           .saveTokenToPrefs(apiResponse.token);
 
       Provider.of<UserSessionProvider>(context, listen: false)
           .addLoginResponse(apiResponse);
+      // print(
+      //     '/////////////////////////here////////////////////////////////////////');
+      // print('this is the new api response ${apiResponse.token}');
+      // print(
+      //     'this is the token from the provider ${context.read<TokenService>().token}');
 
-      print('the response was ok and the code is ${response.statusCode}');
+      // JobBid.bidForAJob( 47,
+      //     'new description', '2', '100',context);
+      print(
+          '////////////////////////here////////////////////////////////////////');
+
+      // print('the response was ok and the code is ${response.statusCode}');
       print(jsonResponse);
       // Return a success result with the ApiResponse
       return SignInResult(success: true, apiResponse: apiResponse);

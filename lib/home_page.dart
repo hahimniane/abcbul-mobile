@@ -1,23 +1,21 @@
 import 'dart:math';
 
-import 'package:abcbul/profile.dart';
-import 'package:abcbul/proposals.dart';
 import 'package:abcbul/services/get_jobs_services/get_jobs_api_call.dart';
 import 'package:abcbul/services/navigation.dart';
 import 'package:abcbul/services/provider_get_user_token.dart';
-import 'package:abcbul/utils/show_terms_services_dialogue.dart';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_countdown_timer/countdown.dart';
+import 'package:flutter_countdown_timer/countdown_controller.dart';
+import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
+import 'package:flutter_countdown_timer/current_remaining_time.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'app_main_screen.dart';
 import 'auth_pages/signin_page.dart';
 import 'const.dart';
 import 'create_job_page.dart';
 import 'create_proposal_page.dart';
-import 'job.dart';
-import 'notification.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -139,48 +137,85 @@ class YeniIhalelerScreen extends StatelessWidget {
               const EdgeInsets.only(top: 16.0, right: 10, left: 10, bottom: 20),
           child: Row(
             children: [
-              CustomPaint(
-                size: Size(100, 100),
-                painter: PentagonPainter(),
-                child: Padding(
-                  padding: EdgeInsets.all(5),
-                  child: Icon(Icons.lightbulb, size: 20, color: iconColor),
-                ),
+              Column(
+                children: [
+                  CustomPaint(
+                    size: Size(100, 100),
+                    painter: PentagonPainter(),
+                    child: Padding(
+                      padding: EdgeInsets.all(5),
+                      child: Icon(Icons.lightbulb, size: 20, color: iconColor),
+                    ),
+                  ),
+                  Text(
+                    'Hizmet',
+                    style: TextStyle(
+                        color: Colors.grey, fontWeight: FontWeight.bold),
+                  )
+                ],
               ),
               Expanded(
                 child: SizedBox(),
               ),
-              CustomPaint(
-                size: Size(100, 100),
-                painter: PentagonPainter(),
-                child: Padding(
-                  padding: EdgeInsets.all(5),
-                  child: Icon(Icons.fire_truck, size: 20, color: Colors.purple),
-                ),
+              Column(
+                children: [
+                  CustomPaint(
+                    size: Size(100, 100),
+                    painter: PentagonPainter(),
+                    child: Padding(
+                      padding: EdgeInsets.all(5),
+                      child: Icon(Icons.fire_truck,
+                          size: 20, color: Colors.purple),
+                    ),
+                  ),
+                  Text(
+                    'Nakliye',
+                    style: TextStyle(
+                        color: Colors.grey, fontWeight: FontWeight.bold),
+                  )
+                ],
               ),
               Expanded(
                 child: SizedBox(),
               ),
-              CustomPaint(
-                size: Size(100, 100),
-                painter: PentagonPainter(),
-                child: Padding(
-                  padding: EdgeInsets.all(5),
-                  child: Icon(Icons.photo_library_rounded,
-                      size: 20, color: Colors.teal),
-                ),
+              Column(
+                children: [
+                  CustomPaint(
+                    size: Size(100, 100),
+                    painter: PentagonPainter(),
+                    child: Padding(
+                      padding: EdgeInsets.all(5),
+                      child: Icon(Icons.photo_library_rounded,
+                          size: 20, color: Colors.teal),
+                    ),
+                  ),
+                  Text(
+                    'Mimari',
+                    style: TextStyle(
+                        color: Colors.grey, fontWeight: FontWeight.bold),
+                  )
+                ],
               ),
               Expanded(
                 child: SizedBox(),
               ),
-              CustomPaint(
-                size: Size(100, 100),
-                painter: PentagonPainter(),
-                child: Padding(
-                  padding: EdgeInsets.all(5),
-                  child:
-                      Icon(Icons.account_balance, size: 20, color: iconColor),
-                ),
+              Column(
+                children: [
+                  CustomPaint(
+                    size: Size(100, 100),
+                    painter: PentagonPainter(),
+                    child: Padding(
+                      padding: EdgeInsets.all(5),
+                      child: Icon(Icons.account_balance,
+                          size: 20, color: iconColor),
+                    ),
+                  ),
+                  Text(
+                    'Toptan',
+                    style: TextStyle(
+                        color: Colors.grey, fontWeight: FontWeight.bold),
+                  )
+                ],
               ),
             ],
           ),
@@ -273,8 +308,6 @@ class YeniIhalelerScreen extends StatelessWidget {
           child: FutureBuilder(
             future: JobsService.getAllJobsService(token, context),
             builder: (context, snapshot) {
-              // var expires_at = snapshot.data![0]['expires_at'];
-              // DateTime date = DateTime.fromMillisecondsSinceEpoch(expires_at);
               if (!snapshot.hasData) {
                 return Center(child: CircularProgressIndicator());
               }
@@ -283,10 +316,7 @@ class YeniIhalelerScreen extends StatelessWidget {
                 shrinkWrap: false,
                 itemCount: snapshot.data!.length,
                 itemBuilder: (BuildContext context, int index) {
-                  DateTime dateTime =
-                      DateTime.fromMillisecondsSinceEpoch(1707586489146);
-                  print('the date time is $dateTime');
-                  print(snapshot.data![index]);
+                  // print(snapshot.data![index]);
                   String title = snapshot.data![index]['title'];
                   String subtitle = snapshot.data![index]['description'];
                   String city = snapshot.data![index]['city'];
@@ -301,8 +331,9 @@ class YeniIhalelerScreen extends StatelessWidget {
                     jobLocation: city,
                     numberOfProposals:
                         snapshot.data![index]['proposals'].length,
-                    jobValidityTimeStamp: '',
+                    jobValidityTimeStamp: snapshot.data![index]['expires_at'],
                     numberOfJobsDoneBefore: numberOfJobsDone,
+                    jobId: snapshot.data![index]['id'],
                   );
                 },
               );
@@ -315,6 +346,7 @@ class YeniIhalelerScreen extends StatelessWidget {
 }
 
 class JobCard extends StatefulWidget {
+  final jobId;
   final jobImageUrl;
   final String jobTitle;
   final String jobSubtitle;
@@ -323,16 +355,16 @@ class JobCard extends StatefulWidget {
   final String jobValidityTimeStamp;
   final int numberOfJobsDoneBefore;
 
-  const JobCard({
-    super.key,
-    this.jobImageUrl,
-    required this.jobTitle,
-    required this.jobSubtitle,
-    required this.jobLocation,
-    required this.numberOfProposals,
-    required this.jobValidityTimeStamp,
-    required this.numberOfJobsDoneBefore,
-  });
+  const JobCard(
+      {super.key,
+      this.jobImageUrl,
+      required this.jobTitle,
+      required this.jobSubtitle,
+      required this.jobLocation,
+      required this.numberOfProposals,
+      required this.jobValidityTimeStamp,
+      required this.numberOfJobsDoneBefore,
+      required this.jobId});
 
   @override
   State<JobCard> createState() => _JobCardState();
@@ -340,6 +372,22 @@ class JobCard extends StatefulWidget {
 
 class _JobCardState extends State<JobCard> {
   bool result = false;
+  int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
+
+  late CountdownTimerController countDownController;
+  @override
+  void initState() {
+    // countDownController.start();
+    countDownController = CountdownTimerController(
+      endTime: endTime,
+    );
+    countDownController.start();
+  }
+
+  // @override
+  // void dispose() {
+  //   // countDownController.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -433,20 +481,6 @@ class _JobCardState extends State<JobCard> {
               ),
             ),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.only(left: 8.0, top: 0, right: 8),
-          //   child: Align(
-          //     alignment: Alignment.centerLeft,
-          //     child: Text(
-          //       'dfsfsdf  sadfsadf  asdf ',
-          //       textAlign: TextAlign.left,
-          //       style: GoogleFonts.montserrat(
-          //           color: Colors.grey,
-          //           fontWeight: FontWeight.w300,
-          //           fontSize: 13),
-          //     ),
-          //   ),
-          // ),
           Container(
             margin: EdgeInsets.only(bottom: 5, left: 10, top: 3),
             height: 20,
@@ -473,10 +507,28 @@ class _JobCardState extends State<JobCard> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 15.0),
-            child: CustomIconWidget(
-                icon: Icons.timelapse,
+            child: Row(children: [
+              Icon(
+                Icons.timelapse,
                 color: Colors.grey.shade300,
-                label: this.widget.jobValidityTimeStamp),
+              ),
+              SizedBox(
+                width: 3,
+              ),
+              CountdownTimer(
+                endTime: int.parse(widget.jobValidityTimeStamp),
+                widgetBuilder:
+                    (BuildContext context, CurrentRemainingTime? currentTime) {
+                  return Text(
+                    "${currentTime!.days.toString()} gün ${currentTime.hours.toString()} saat ${currentTime.min.toString()} dakika ${currentTime.sec.toString()} saniye ",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  );
+                },
+              ),
+            ]),
+            //
           ),
           Padding(
             padding: const EdgeInsets.only(left: 15.0),
@@ -489,7 +541,11 @@ class _JobCardState extends State<JobCard> {
           GestureDetector(
             onTap: () async {
               if (await getToken(context) != null) {
-                NavigationHelper.pushPage(context, CreateProposalPage());
+                NavigationHelper.pushPage(
+                    context,
+                    CreateProposalPage(
+                      jobId: widget.jobId,
+                    ));
               } else {
                 NavigationHelper.pushPage(context, SignInPage());
               }
