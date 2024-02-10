@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage>
           children: [
             Container(
               decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white, width: 2),
+                  border: Border.all(color: Colors.white, width: 1),
                   borderRadius: BorderRadius.circular(8)),
               child: Image(
                 height: MediaQuery.of(context).size.height * 0.2,
@@ -124,7 +124,36 @@ Future<String?> getToken(context) async {
       .loadTokenFromPrefs();
 }
 
-class YeniIhalelerScreen extends StatelessWidget {
+class YeniIhalelerScreen extends StatefulWidget {
+  @override
+  State<YeniIhalelerScreen> createState() => _YeniIhalelerScreenState();
+}
+
+class _YeniIhalelerScreenState extends State<YeniIhalelerScreen>
+    with TickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(minutes: 2),
+    )..addListener(() {
+        setState(() {
+          // Rebuild the widget when the animation value changes
+        });
+      });
+
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     // var jobs = JobsService.getAllJobsService(token, context);
@@ -308,34 +337,93 @@ class YeniIhalelerScreen extends StatelessWidget {
           child: FutureBuilder(
             future: JobsService.getAllJobsService(token, context),
             builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Center(child: CircularProgressIndicator());
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                double progressValue = _controller.value.clamp(0.0, 1.0);
+                return Center(
+                  child: CircularProgressIndicator(
+                      // color: Colors.blue,
+                      // value: progressValue,
+                      // valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+
+                      // semanticsLabel: 'Progress',
+                      //
+                      // semanticsValue:
+                      //     '${(_controller.value * 30).round()} seconds', // Converts progress to seconds
+                      ),
+                );
+                // return Center(
+                //     child: CircularProgressIndicator(
+                //   value: 0.5,
+                //   color: Colors.blue,
+                // ));
+              } else if (snapshot.hasError) {
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    // Add your refresh logic here
+                    // For example, fetch new data from the server
+                    await Future.delayed(
+                        Duration(seconds: 2)); // Simulating a delay
+                    print('Page refreshed');
+                  },
+                  child: Center(
+                    child: Column(
+                      children: [
+                        SizedBox(height: 16.0),
+                        Text(
+                          "Bir Hata Oluştu",
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 8.0),
+                        Text(
+                          "Lütfen tekrar deneyiniz",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.0,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
               }
 
-              return ListView.builder(
-                shrinkWrap: false,
-                itemCount: snapshot.data!.length,
-                itemBuilder: (BuildContext context, int index) {
-                  // print(snapshot.data![index]);
-                  String title = snapshot.data![index]['title'];
-                  String subtitle = snapshot.data![index]['description'];
-                  String city = snapshot.data![index]['city'];
-                  int numberOfJobsDone =
-                      snapshot.data![index]['user']['project_completed'];
-                  String coverImage = snapshot.data![index]['cover'];
-                  print(numberOfJobsDone);
-                  return JobCard(
-                    jobImageUrl: coverImage,
-                    jobTitle: title,
-                    jobSubtitle: subtitle,
-                    jobLocation: city,
-                    numberOfProposals:
-                        snapshot.data![index]['proposals'].length,
-                    jobValidityTimeStamp: snapshot.data![index]['expires_at'],
-                    numberOfJobsDoneBefore: numberOfJobsDone,
-                    jobId: snapshot.data![index]['id'],
-                  );
+              return RefreshIndicator(
+                onRefresh: () async {
+                  // Add your refresh logic here
+                  // For example, fetch new data from the server
+                  await Future.delayed(
+                      Duration(seconds: 2)); // Simulating a delay
+                  print('Page refreshed');
                 },
+                child: ListView.builder(
+                  shrinkWrap: false,
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    // print(snapshot.data![index]);
+                    String title = snapshot.data![index]['title'];
+                    String subtitle = snapshot.data![index]['description'];
+                    String city = snapshot.data![index]['city'];
+                    int numberOfJobsDone =
+                        snapshot.data![index]['user']['project_completed'];
+                    String coverImage = snapshot.data![index]['cover'];
+                    print(numberOfJobsDone);
+                    return JobCard(
+                      jobImageUrl: coverImage,
+                      jobTitle: title,
+                      jobSubtitle: subtitle,
+                      jobLocation: city,
+                      numberOfProposals:
+                          snapshot.data![index]['proposals'].length,
+                      jobValidityTimeStamp: snapshot.data![index]['expires_at'],
+                      numberOfJobsDoneBefore: numberOfJobsDone,
+                      jobId: snapshot.data![index]['id'],
+                    );
+                  },
+                ),
               );
             },
           ),

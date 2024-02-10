@@ -692,9 +692,13 @@ class _JobPageState extends State<CreateJobPage> {
                                   } else if (jobTimeContainerThree) {
                                     selectedTime = '720';
                                   }
-
+                                  // print('came all the way here');
+                                  // print(
+                                  //     'these are the values to be sent ${image?.path} ,${contentHeaderController.text}, ${contentDescriptionController.text}, ${currentSelectedStatusValue} '
+                                  //     '${currentSelectedLocationValue}, $selectedCategory, $selectedTime');
+                                  print(image?.path);
                                   bool result = await PostJob.postJob(
-                                    cover: '$image',
+                                    cover: image?.path ?? null,
                                     title: contentHeaderController.text,
                                     description:
                                         contentDescriptionController.text,

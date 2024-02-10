@@ -13,7 +13,9 @@ class PostJob {
       required String city,
       required String estimated_time,
       required BuildContext context,
-      String? cover = ''}) async {
+      String? cover}) async {
+    print('this is the image path $cover');
+    print('entered the function');
     String? token = context.read<TokenService>().token;
     var headers = {
       'Authorization': 'Bearer $token',
@@ -31,7 +33,7 @@ class PostJob {
       'estimated_time': estimated_time
       // '168', 360,720
     });
-    request.files.add(await http.MultipartFile.fromPath('cover', cover!));
+    request.files.add(await http.MultipartFile.fromPath('cover', cover ?? ""));
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();

@@ -6,34 +6,15 @@ import 'package:abcbul/services/provider_for_logged_in_user.dart';
 import 'package:abcbul/services/provider_get_user_token.dart';
 import 'package:abcbul/auth_pages/signin_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'app_main_screen.dart';
-
 class ProfilePage extends StatelessWidget {
-  // Provider.of<UserSessionProvider>(context,listen:false);
-
-  // LoginApiResponse response=LoginApiResponse()
-
-  // Function to simulate account deletion
-  void deleteAccount() {
-    // Implement your account deletion logic here
-    print('Account deleted');
-  }
-
-  // Function to simulate logout
-  void logout() {
-    // Implement your logout logic here
-    print('User logged out');
-  }
-
   @override
   Widget build(BuildContext context) {
+    var tokenService = Provider.of<TokenService>(context, listen: false);
     LoginApiResponse? userResponse =
-        Provider.of<UserSessionProvider>(context, listen: false)
-            .loginApiResponse;
+        context.read<UserSessionProvider>().loginApiResponse;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: backgroundColor,
@@ -46,26 +27,29 @@ class ProfilePage extends StatelessWidget {
                 color: Colors.purple,
               ),
               onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return ConfirmationDialog(
-                        onDeleteConfirmed: () {
-                          Provider.of<TokenService>(context, listen: false)
-                              .removeTokenFromPrefs()
-                              .then((value) async {
-                            SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                            print(prefs.getString('token'));
-                            NavigationHelper.pushPage(context, SignInPage());
-                          });
-                        },
-                        title: 'Çıkış Yapmak',
-                        actionTextString:
-                            'Çıkış yapmakt istediğinizden Emin misiniz?',
-                        confirmButtonText: 'Çıkış',
-                      );
-                    });
+                userResponse?.user != null
+                    ? showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return ConfirmationDialog(
+                            onDeleteConfirmed: () {
+                              Provider.of<TokenService>(context, listen: false)
+                                  .removeTokenFromPrefs()
+                                  .then((value) async {
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                print(prefs.getString('token'));
+                                NavigationHelper.pushPage(
+                                    context, SignInPage());
+                              });
+                            },
+                            title: 'Çıkış Yapmak',
+                            actionTextString:
+                                'Çıkış yapmakt istediğinizden Emin misiniz?',
+                            confirmButtonText: 'Çıkış',
+                          );
+                        })
+                    : NavigationHelper.pushPage(context, SignInPage());
               },
             ),
           ),
@@ -84,20 +68,14 @@ class ProfilePage extends StatelessWidget {
                     builder: (BuildContext context) {
                       return ConfirmationDialog(
                         onDeleteConfirmed: () {
-                          String? token =
-                              Provider.of<TokenService>(context, listen: false)
-                                  .token;
-                          DeleteAccountService deleteAccount =
-                              DeleteAccountService();
                           // Handle account deletion logic here
-                          deleteAccount.deleteAccount(token);
-                          Provider.of<TokenService>(context, listen: false)
+                          DeleteAccountService.deleteAccount(context: context);
+
+                          tokenService
                               .removeTokenFromPrefs()
                               .then((value) async {
-                            SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                            print(prefs.getString('token'));
-                            deleteAccount.deleteAccount(token);
+                            DeleteAccountService.deleteAccount(
+                                context: context);
                             NavigationHelper.pushPage(context, SignInPage());
                           });
                         },
