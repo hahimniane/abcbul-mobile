@@ -1,85 +1,105 @@
-import 'package:abcbul/services/provider_for_logged_in_user.dart';
-import 'package:abcbul/services/provider_get_user_token.dart';
-import 'package:abcbul/auth_pages/signin_page.dart';
-import 'package:device_preview/device_preview.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter/services.dart';
+// import 'package:flutter_localizations/flutter_localizations.dart';
+// import 'core/app_export.dart';
+//
+// var globalMessengerKey = GlobalKey<ScaffoldMessengerState>();
+// void main() {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   Future.wait([
+//     SystemChrome.setPreferredOrientations([
+//       DeviceOrientation.portraitUp,
+//     ]),
+//     PrefUtils().init()
+//   ]).then((value) {
+//     runApp(MyApp());
+//   });
+// }
+//
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Sizer(
+//       builder: (context, orientation, deviceType) {
+//         return ChangeNotifierProvider(
+//           create: (context) => ThemeProvider(),
+//           child: Consumer<ThemeProvider>(
+//             builder: (context, provider, child) {
+//               return MaterialApp(
+//                 theme: theme,
+//                 title: 'abcbul',
+//                 navigatorKey: NavigatorService.navigatorKey,
+//                 debugShowCheckedModeBanner: false,
+//                 localizationsDelegates: [
+//                   AppLocalizationDelegate(),
+//                   GlobalMaterialLocalizations.delegate,
+//                   GlobalWidgetsLocalizations.delegate,
+//                   GlobalCupertinoLocalizations.delegate,
+//                 ],
+//                 supportedLocales: [
+//                   // const Locale('en', 'US'),
+//                   const Locale('tr', 'TR'),
+//                 ],
+//                 initialRoute: AppRoutes.initialRoute,
+//                 routes: AppRoutes.routes,
+//               );
+//             },
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
 
+// Copyright 2013 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+// ignore_for_file: public_member_api_docs
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'app_main_screen.dart';
-import 'firebase_options.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
-
+void main() {
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => TokenService(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => UserSessionProvider(),
-        ),
-      ],
-      child: DevicePreview(
-        enabled: false,
-        builder: (context) => MyApp(), // Wrap your app
-      ),
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      // theme: ThemeData(useMaterial3: true),
+      home: WebViewApp(),
     ),
   );
 }
 
-class MyApp extends StatefulWidget {
+class WebViewApp extends StatefulWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  State<WebViewApp> createState() => _WebViewAppState();
 }
 
-class _MyAppState extends State<MyApp> {
-  late Future<String?> tokenFuture;
+class _WebViewAppState extends State<WebViewApp> {
+  late final WebViewController controller;
 
   @override
   void initState() {
-    Provider.of<TokenService>(context, listen: false).removeTokenFromPrefs();
-    print('the token has been cleared');
-    print(Provider.of<TokenService>(context, listen: false).token);
-    ;
     super.initState();
-
-    // Initialize the tokenFuture in the initState
-    tokenFuture = getToken();
-    print(' token after having clerared it $tokenFuture');
+    controller = WebViewController()
+      ..loadRequest(
+        //https://www.abcbul.com/
+        Uri.parse('https:www.abcbul.com/'),
+      );
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        locale: DevicePreview.locale(context),
-        debugShowCheckedModeBanner: false,
-        home: AppMainScreen()
-        // FutureBuilder<String?>(
-        //   future: tokenFuture,
-        //   builder: (context, snapshot) {
-        //     if (snapshot.connectionState == ConnectionState.done) {
-        //       final String? token = snapshot.data;
-        //
-        //       print('the token is-- $token');
-        //
-        //       return token != null ? AppMainScreen() : SignInPage();
-        //     } else {
-        //       return CircularProgressIndicator();
-        //     }
-        //   },
-        // ),
-        );
-  }
-
-  Future<String?> getToken() async {
-    print(
-        'the toke from getToken Method ${Provider.of<TokenService>(context, listen: false).loadTokenFromPrefs()}');
-    return await Provider.of<TokenService>(context, listen: false)
-        .loadTokenFromPrefs();
+    return Scaffold(
+      backgroundColor: Color(0xff10172A),
+      // appBar: AppBar(
+      //   title: const Text('Flutter WebView'),
+      // ),
+      body: SafeArea(
+        child: WebViewWidget(
+          controller: controller,
+        ),
+      ),
+    );
   }
 }
